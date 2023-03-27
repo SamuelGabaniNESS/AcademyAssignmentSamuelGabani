@@ -37,4 +37,10 @@ public class ArticleServiceImpl implements ArticleService {
     throw new UnsupportedOperationException("Article ingesting not implemented.");
   }
 
+  @Override
+  public void deleteArticle(final Article article) {
+    this.articleDAO.deleteById(article);
+  }
+
+
 }

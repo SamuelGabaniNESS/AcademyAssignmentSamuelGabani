@@ -23,12 +23,20 @@ public class ArticleHibernateDAO implements ArticleDAO {
   @SuppressWarnings("unchecked")
   @Override
   public List<Article> findAll() {
-    return this.sessionFactory.getCurrentSession().createSQLQuery("select * from articles").addEntity(Article.class).list();
+    return this.sessionFactory
+            .getCurrentSession()
+            .createSQLQuery("select id,title,text,author,create_timestamp from articles").list();
+    //return this.sessionFactory.getCurrentSession().createSQLQuery("select * from articles").addEntity(Article.class).list();
   }
 
   @Override
   public void persist(final Article article) {
     this.sessionFactory.getCurrentSession().saveOrUpdate(article);
+  }
+
+  @Override
+  public void deleteById(final Article article) {
+    this.sessionFactory.getCurrentSession().delete(article);
   }
 
 }

@@ -1,15 +1,9 @@
 package sk.ness.academy.domain;
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.util.List;
+import java.util.Set;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "articles")
@@ -37,6 +31,18 @@ public class Article {
   @Column(name = "create_timestamp")
   @Temporal(TemporalType.TIMESTAMP)
   private Date createTimestamp;
+
+  @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+  @JoinColumn(name="id_article")
+  private List<Comment> comments;
+
+  public List<Comment> getComments() {
+    return comments;
+  }
+
+  public void setComments(List<Comment> comments) {
+    this.comments = comments;
+  }
 
   public Integer getId() {
     return this.id;
