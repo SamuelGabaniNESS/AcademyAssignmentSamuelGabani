@@ -7,8 +7,12 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+
 import sk.ness.academy.config.DatabaseConfig;
 import sk.ness.academy.service.ArticleService;
+
+import java.io.File;
+import java.io.FileReader;
 
 @Configuration
 @EnableTransactionManagement
@@ -24,8 +28,18 @@ public class ArticleIngester {
       final ArticleService articleService = context.getBean(ArticleService.class);
 
       // Load file with articles and ingest
-
-      articleService.ingestArticles(null);
+      String fileText = "";
+      try {
+        FileReader fileReader = new FileReader("articles_to_ingest.txt");
+        int character;
+        while((character = fileReader.read())!=-1){
+          fileText += (char)character;
+        }
+        System.out.println(fileText);
+      }catch (Exception e){
+        System.out.println("Chyba subor");
+      }
+      articleService.ingestArticles(fileText);
     }
   }
 }
