@@ -19,5 +19,6 @@ public interface ArticleService {
 	  void ingestArticles(String jsonArticles);
 
 	  void deleteArticle(final Article article);
+	  List<Article> searchAll(String searchedText);
 
 	}

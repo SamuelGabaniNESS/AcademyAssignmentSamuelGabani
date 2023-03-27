@@ -39,6 +39,11 @@ public class ArticleServiceImpl implements ArticleService {
   }
 
   @Override
+  public List<Article> searchAll(String searchedText) {
+    return this.articleDAO.searchAll(searchedText);
+  }
+
+  @Override
   public void createArticle(final Article article) {
 	  this.articleDAO.persist(article);
   }

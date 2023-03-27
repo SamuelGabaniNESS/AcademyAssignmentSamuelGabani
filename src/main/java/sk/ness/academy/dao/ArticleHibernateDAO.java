@@ -28,6 +28,14 @@ public class ArticleHibernateDAO implements ArticleDAO {
             .createSQLQuery("select id,title,text,author,create_timestamp from articles").list();
     //return this.sessionFactory.getCurrentSession().createSQLQuery("select * from articles").addEntity(Article.class).list();
   }
+  @Override
+  public List<Article> searchAll(String searchedText){
+    return this.sessionFactory
+            .getCurrentSession()
+            .createSQLQuery("select * from articles " +
+                    "where author like '%"+searchedText+"%' or text like '%"+searchedText+"%' or title like '%"+searchedText+"%'")
+            .list();
+  }
 
   @Override
   public void persist(final Article article) {
