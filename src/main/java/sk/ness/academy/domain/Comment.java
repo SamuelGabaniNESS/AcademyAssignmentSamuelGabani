@@ -16,7 +16,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comments_seq_store")
     private Integer id;
 
-    @Column(name = "id_article", nullable = false)
+    @Column(name = "id_article")
     private Integer id_article;
 
     @Column(name = "author", length = 250)

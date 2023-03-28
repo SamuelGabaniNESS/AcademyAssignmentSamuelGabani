@@ -1,5 +1,8 @@
 package sk.ness.academy.domain;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Set;

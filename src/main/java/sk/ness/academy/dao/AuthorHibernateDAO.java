@@ -40,7 +40,7 @@ public class AuthorHibernateDAO implements AuthorDAO {
       int count = (int) this
               .sessionFactory
               .getCurrentSession()
-              .createSQLQuery("select * from articles where author LIKE '%"+a.getName()+"%'").stream().count();
+              .createSQLQuery("select * from articles where author LIKE '"+a.getName()+"'").stream().count();
       as.setArticleCount(count);
       authorStats.add(as);
     }

@@ -4,14 +4,15 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.hsqldb.HsqlException;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import sk.ness.academy.domain.Article;
 import sk.ness.academy.domain.Comment;
+import sk.ness.academy.domain.MyResourceNotFoundException;
 import sk.ness.academy.dto.Author;
 import sk.ness.academy.dto.AuthorStats;
 import sk.ness.academy.service.ArticleService;
@@ -32,8 +33,8 @@ public class BlogController {
 
   // ~~ Article
   @RequestMapping(value = "articles", method = RequestMethod.GET)
-  public List<Article> getAllArticles() {
-	  return this.articleService.findAll();
+  public List<Article> getAllArticles(){
+      return this.articleService.findAll();
   }
 
   @RequestMapping(value = "articles/{articleId}", method = RequestMethod.GET)
@@ -78,8 +79,10 @@ public class BlogController {
 
   @RequestMapping(value = "articles/{articleId}/comments", method = RequestMethod.PUT)
   public void addComment(@PathVariable final Integer articleId,@RequestBody final Comment comment) {
-    comment.setId_article(articleId);
-    this.commentService.createComment(comment);
+    if(this.articleService.findByID(articleId)!=null) {
+      comment.setId_article(articleId);
+      this.commentService.createComment(comment);
+    }
   }
 
   @RequestMapping(value = "articles/{articleId}/comments/{commentId}", method = RequestMethod.DELETE)
@@ -88,4 +91,13 @@ public class BlogController {
   }
 
 
+  // Exception handling
+//  @ResponseStatus(value = HttpStatus.ACCEPTED)
+//  @RequestMapping(value="/articles", method=RequestMethod.GET)
+//  @ResponseBody
+//  public String skuska() {
+//    return "not found";
+//  }
+
+  
 }
