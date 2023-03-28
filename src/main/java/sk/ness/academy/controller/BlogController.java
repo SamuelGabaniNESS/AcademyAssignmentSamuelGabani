@@ -1,5 +1,6 @@
 package sk.ness.academy.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -34,7 +35,7 @@ public class BlogController {
   // ~~ Article
   @RequestMapping(value = "articles", method = RequestMethod.GET)
   public List<Article> getAllArticles(){
-      return this.articleService.findAll();
+    return this.articleService.findAll();
   }
 
   @RequestMapping(value = "articles/{articleId}", method = RequestMethod.GET)
@@ -93,11 +94,11 @@ public class BlogController {
 
   // Exception handling
 //  @ResponseStatus(value = HttpStatus.ACCEPTED)
-//  @RequestMapping(value="/articles", method=RequestMethod.GET)
+//  @RequestMapping(value="/articlese", method=RequestMethod.GET)
 //  @ResponseBody
 //  public String skuska() {
 //    return "not found";
 //  }
 
-  
+
 }

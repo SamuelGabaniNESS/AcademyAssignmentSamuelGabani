@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -30,7 +31,7 @@ public class ArticleServiceImpl implements ArticleService {
 
   @Override
   public Article findByID(final Integer articleId) {
-	  return this.articleDAO.findByID(articleId);
+      return this.articleDAO.findByID(articleId);
   }
 
   @Override
