@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.server.ResponseStatusException;
 import sk.ness.academy.domain.Article;
 import sk.ness.academy.domain.Comment;
 import sk.ness.academy.domain.MyResourceNotFoundException;
@@ -93,6 +94,9 @@ public class BlogController {
 
 
   // Exception handling
+
+
+
 //  @ResponseStatus(value = HttpStatus.ACCEPTED)
 //  @RequestMapping(value="/articlese", method=RequestMethod.GET)
 //  @ResponseBody
