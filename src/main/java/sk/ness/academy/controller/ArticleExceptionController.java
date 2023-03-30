@@ -4,10 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import sk.ness.academy.exceptions.ArticleIllegalArgumentException;
-import sk.ness.academy.exceptions.ArticleNotFoundException;
-import sk.ness.academy.exceptions.AuthorNotFoundException;
-import sk.ness.academy.exceptions.CommentsNotFoundException;
+import sk.ness.academy.exceptions.*;
 
 @ControllerAdvice
 public class ArticleExceptionController {
@@ -64,5 +61,17 @@ public class ArticleExceptionController {
         }
     }
 
+    @ExceptionHandler(value = CommentIllegalArgumentException.class)
+    public ResponseEntity<Object> exception(CommentIllegalArgumentException exception){
+        String resultMessage = "Can't create comment because ";
+        if(exception.getAuthor().isEmpty()){
+            resultMessage = resultMessage + "author,";
+        }
+        if(exception.getText().isEmpty()){
+            resultMessage = resultMessage + "text,";
+        }
+        resultMessage = resultMessage.substring(0,resultMessage.length()-1) + " is missing.";
+        return new ResponseEntity<>(resultMessage,HttpStatus.EXPECTATION_FAILED);
+    }
 
 }

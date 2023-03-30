@@ -10,10 +10,7 @@ import sk.ness.academy.domain.Article;
 import sk.ness.academy.domain.Comment;
 import sk.ness.academy.dto.Author;
 import sk.ness.academy.dto.AuthorStats;
-import sk.ness.academy.exceptions.ArticleIllegalArgumentException;
-import sk.ness.academy.exceptions.ArticleNotFoundException;
-import sk.ness.academy.exceptions.AuthorNotFoundException;
-import sk.ness.academy.exceptions.CommentsNotFoundException;
+import sk.ness.academy.exceptions.*;
 import sk.ness.academy.service.ArticleService;
 import sk.ness.academy.service.AuthorService;
 import sk.ness.academy.service.CommentService;
@@ -117,8 +114,12 @@ public class BlogController {
   @RequestMapping(value = "articles/{articleId}/comments", method = RequestMethod.PUT)
   public void addComment(@PathVariable final Integer articleId,@RequestBody final Comment comment) {
     if(this.articleService.findByID(articleId)!=null) {
-      comment.setId_article(articleId);
-      this.commentService.createComment(comment);
+      if(comment.getAuthor().isEmpty() || comment.getText().isEmpty()){
+        throw new CommentIllegalArgumentException(comment.getAuthor(),comment.getText());
+      }else{
+        comment.setId_article(articleId);
+        this.commentService.createComment(comment);
+      }
     }else{
       throw new CommentsNotFoundException(articleId);
     }
