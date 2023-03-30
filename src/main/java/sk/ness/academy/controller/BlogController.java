@@ -1,22 +1,18 @@
 package sk.ness.academy.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.hsqldb.HsqlException;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.server.ResponseStatusException;
 import sk.ness.academy.domain.Article;
 import sk.ness.academy.domain.Comment;
-import sk.ness.academy.domain.MyResourceNotFoundException;
 import sk.ness.academy.dto.Author;
 import sk.ness.academy.dto.AuthorStats;
+import sk.ness.academy.exceptions.ArticleIllegalArgumentException;
+import sk.ness.academy.exceptions.ArticleNotFoundException;
+import sk.ness.academy.exceptions.AuthorNotFoundException;
 import sk.ness.academy.service.ArticleService;
 import sk.ness.academy.service.AuthorService;
 import sk.ness.academy.service.CommentService;
@@ -36,39 +32,72 @@ public class BlogController {
   // ~~ Article
   @RequestMapping(value = "articles", method = RequestMethod.GET)
   public List<Article> getAllArticles(){
-    return this.articleService.findAll();
+    List<Article> result = this.articleService.findAll();
+    if(result.isEmpty()){
+      throw new ArticleNotFoundException();
+    }else {
+      return result;
+    }
   }
 
   @RequestMapping(value = "articles/{articleId}", method = RequestMethod.GET)
   public Article getArticle(@PathVariable final Integer articleId) {
-	  return this.articleService.findByID(articleId);
+    Article result = this.articleService.findByID(articleId);
+    if(result == null){
+      throw new ArticleNotFoundException();
+    }else {
+      return result;
+    }
   }
 
   @RequestMapping(value = "articles/search/{searchText}", method = RequestMethod.GET)
   public List<Article> searchArticle(@PathVariable final String searchText) {
-	  return this.articleService.searchAll(searchText);
+    List<Article> result = this.articleService.searchAll(searchText);
+    if(result.isEmpty()){
+      throw new ArticleNotFoundException(searchText);
+    }else {
+      return result;
+    }
   }
 
   @RequestMapping(value = "articles", method = RequestMethod.PUT)
   public void addArticle(@RequestBody final Article article) {
-	  this.articleService.createArticle(article);
+    if(article.getAuthor().isEmpty() || article.getTitle().isEmpty() || article.getText().isEmpty()){
+      throw new ArticleIllegalArgumentException(article.getAuthor(),article.getTitle(),article.getText());
+    }else {
+      this.articleService.createArticle(article);
+    }
   }
 
   // ~~ Author
   @RequestMapping(value = "authors", method = RequestMethod.GET)
   public List<Author> getAllAuthors() {
-	  return this.authorService.findAll();
+    List<Author> result = this.authorService.findAll();
+    if(result.isEmpty()){
+      throw new AuthorNotFoundException();
+    }else {
+      return result;
+    }
   }
 
   @RequestMapping(value = "authors/stats", method = RequestMethod.GET)
   public List<AuthorStats> authorStats() {
-	  return this.authorService.getAuthorStats();
+    List<AuthorStats> result = this.authorService.getAuthorStats();
+    if(result.isEmpty()){
+      throw new AuthorNotFoundException();
+    }else{
+      return result;
+    }
   }
 
   // Delete article
   @RequestMapping(value = "articles/{articleId}", method = RequestMethod.DELETE)
   public void deleteArticle(@PathVariable final Integer articleId) {
-    this.articleService.deleteArticle(this.articleService.findByID(articleId));
+    if(this.articleService.findByID(articleId) == null){
+      throw new ArticleNotFoundException(articleId);
+    }else {
+      this.articleService.deleteArticle(this.articleService.findByID(articleId));
+    }
   }
 
 
