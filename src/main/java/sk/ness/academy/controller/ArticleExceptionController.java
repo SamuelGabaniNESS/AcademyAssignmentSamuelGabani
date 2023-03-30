@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import sk.ness.academy.exceptions.ArticleIllegalArgumentException;
 import sk.ness.academy.exceptions.ArticleNotFoundException;
 import sk.ness.academy.exceptions.AuthorNotFoundException;
+import sk.ness.academy.exceptions.CommentsNotFoundException;
 
 @ControllerAdvice
 public class ArticleExceptionController {
@@ -47,6 +48,20 @@ public class ArticleExceptionController {
     @ExceptionHandler(value = AuthorNotFoundException.class)
     public ResponseEntity<Object> exception(AuthorNotFoundException exception){
         return new ResponseEntity<>("Author not found.",HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = CommentsNotFoundException.class)
+    public ResponseEntity<Object> exception(CommentsNotFoundException exception){
+        if(exception.getCommentId() != 0){
+            return new ResponseEntity<>(
+                    "Comment with ID: "+exception.getCommentId()+
+                            " to article with ID: " + exception.getArticleId() + " not found.",
+                    HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity<>(
+                    "Comments to article with ID: " + exception.getArticleId() + " not found.",
+                    HttpStatus.NOT_FOUND);
+        }
     }
 
 

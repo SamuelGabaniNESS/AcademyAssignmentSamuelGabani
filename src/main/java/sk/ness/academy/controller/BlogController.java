@@ -13,6 +13,7 @@ import sk.ness.academy.dto.AuthorStats;
 import sk.ness.academy.exceptions.ArticleIllegalArgumentException;
 import sk.ness.academy.exceptions.ArticleNotFoundException;
 import sk.ness.academy.exceptions.AuthorNotFoundException;
+import sk.ness.academy.exceptions.CommentsNotFoundException;
 import sk.ness.academy.service.ArticleService;
 import sk.ness.academy.service.AuthorService;
 import sk.ness.academy.service.CommentService;
@@ -105,7 +106,12 @@ public class BlogController {
   // Comments
   @RequestMapping(value = "articles/{articleId}/comments", method = RequestMethod.GET)
   public List<Comment> getAllComments(@PathVariable final Integer articleId) {
-    return this.commentService.findAll(articleId);
+    List<Comment> result = this.commentService.findAll(articleId);
+    if(result.isEmpty()){
+      throw new CommentsNotFoundException(articleId);
+    }else {
+      return result;
+    }
   }
 
   @RequestMapping(value = "articles/{articleId}/comments", method = RequestMethod.PUT)
@@ -113,25 +119,18 @@ public class BlogController {
     if(this.articleService.findByID(articleId)!=null) {
       comment.setId_article(articleId);
       this.commentService.createComment(comment);
+    }else{
+      throw new CommentsNotFoundException(articleId);
     }
   }
 
   @RequestMapping(value = "articles/{articleId}/comments/{commentId}", method = RequestMethod.DELETE)
   public void deleteComment(@PathVariable final Integer articleId,@PathVariable final Integer commentId) {
-    this.commentService.deleteComment(this.commentService.findByID(commentId));
+    if(this.commentService.findByID(commentId)==null){
+      throw new CommentsNotFoundException(articleId,commentId);
+    }else {
+      this.commentService.deleteComment(this.commentService.findByID(commentId));
+    }
   }
-
-
-  // Exception handling
-
-
-
-//  @ResponseStatus(value = HttpStatus.ACCEPTED)
-//  @RequestMapping(value="/articlese", method=RequestMethod.GET)
-//  @ResponseBody
-//  public String skuska() {
-//    return "not found";
-//  }
-
 
 }
