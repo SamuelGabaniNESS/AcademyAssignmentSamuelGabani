@@ -114,7 +114,8 @@ public class BlogController {
   @RequestMapping(value = "articles/{articleId}/comments", method = RequestMethod.PUT)
   public void addComment(@PathVariable final Integer articleId,@RequestBody final Comment comment) {
     if(this.articleService.findByID(articleId)!=null) {
-      if(comment.getAuthor().isEmpty() || comment.getText().isEmpty()){
+      if(comment.getAuthor() == null || comment.getText() == null ||
+              comment.getAuthor().isEmpty() || comment.getText().isEmpty()){
         throw new CommentIllegalArgumentException(comment.getAuthor(),comment.getText());
       }else{
         comment.setId_article(articleId);

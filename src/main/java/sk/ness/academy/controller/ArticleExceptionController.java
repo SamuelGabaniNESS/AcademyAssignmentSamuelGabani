@@ -29,16 +29,21 @@ public class ArticleExceptionController {
     @ExceptionHandler(value = ArticleIllegalArgumentException.class)
     public ResponseEntity<Object> exception(ArticleIllegalArgumentException exception){
         String resultMessage = "Can't create article because ";
-        if(exception.getAuthor().isEmpty()){
-            resultMessage = resultMessage + "author,";
+        if(exception.getAuthor() == null || exception.getText() == null || exception.getTitle() == null){
+            resultMessage = resultMessage + "one or more arguments are missing in request.";
+            return new ResponseEntity<>(resultMessage,HttpStatus.BAD_REQUEST);
+        }else {
+            if (exception.getAuthor().isEmpty()) {
+                resultMessage = resultMessage + "author,";
+            }
+            if (exception.getTitle().isEmpty()) {
+                resultMessage = resultMessage + "title,";
+            }
+            if (exception.getText().isEmpty()) {
+                resultMessage = resultMessage + "text,";
+            }
+            resultMessage = resultMessage.substring(0, resultMessage.length() - 1) + " is missing.";
         }
-        if(exception.getTitle().isEmpty()){
-            resultMessage = resultMessage + "title,";
-        }
-        if(exception.getText().isEmpty()){
-            resultMessage = resultMessage + "text,";
-        }
-        resultMessage = resultMessage.substring(0,resultMessage.length()-1) + " is missing.";
         return new ResponseEntity<>(resultMessage,HttpStatus.EXPECTATION_FAILED);
     }
 
@@ -64,13 +69,18 @@ public class ArticleExceptionController {
     @ExceptionHandler(value = CommentIllegalArgumentException.class)
     public ResponseEntity<Object> exception(CommentIllegalArgumentException exception){
         String resultMessage = "Can't create comment because ";
-        if(exception.getAuthor().isEmpty()){
-            resultMessage = resultMessage + "author,";
+        if(exception.getAuthor() == null || exception.getText() == null){
+            resultMessage = resultMessage + "one or more arguments are missing in request.";
+            return new ResponseEntity<>(resultMessage,HttpStatus.BAD_REQUEST);
+        }else {
+            if (exception.getAuthor().isEmpty()) {
+                resultMessage = resultMessage + "author,";
+            }
+            if (exception.getText().isEmpty()) {
+                resultMessage = resultMessage + "text,";
+            }
+            resultMessage = resultMessage.substring(0, resultMessage.length() - 1) + " is missing.";
         }
-        if(exception.getText().isEmpty()){
-            resultMessage = resultMessage + "text,";
-        }
-        resultMessage = resultMessage.substring(0,resultMessage.length()-1) + " is missing.";
         return new ResponseEntity<>(resultMessage,HttpStatus.EXPECTATION_FAILED);
     }
 
