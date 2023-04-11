@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.verification.VerificationMode;
 import org.springframework.boot.test.context.SpringBootTest;
+import sk.ness.academy.controller.BlogController;
 import sk.ness.academy.dao.ArticleDAO;
 import sk.ness.academy.domain.Article;
 import sk.ness.academy.domain.Comment;
@@ -107,7 +109,29 @@ public class ArticleServiceImplTest {
 
     @Test
     void testCreateArticle(){
-        
+        Article a = new Article();
+        a.setId(4);
+        a.setTitle("a");
+        a.setText("a");
+        a.setAuthor("a");
+        articleService.createArticle(a);
+        Mockito.verify(articleDAO).persist(a);
+    }
+
+    @Test
+    void testDeleteArticle(){
+        Article a = new Article();
+        a.setId(4);
+        a.setTitle("a");
+        a.setText("a");
+        a.setAuthor("a");
+        articleService.deleteArticle(a);
+        Mockito.verify(articleDAO).deleteById(a);
+    }
+
+    @Test
+    void testIngestArticles(){
+
     }
 
     @BeforeEach
