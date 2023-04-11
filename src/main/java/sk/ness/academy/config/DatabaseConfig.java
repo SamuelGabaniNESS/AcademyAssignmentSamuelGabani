@@ -24,7 +24,7 @@ public class DatabaseConfig {
 
     final LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
     sessionFactory.setDataSource(dataSource());
-    sessionFactory.setPackagesToScan(new String[] { "sk.ness.academy.domain" });
+    sessionFactory.setPackagesToScan("sk.ness.academy.domain");
     sessionFactory.setHibernateProperties(configuration.getProperties());
 
     return sessionFactory;
