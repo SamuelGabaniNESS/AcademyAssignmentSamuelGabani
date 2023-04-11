@@ -31,12 +31,12 @@ public class ArticleServiceImpl implements ArticleService {
 
   @Override
   public Article findByID(final Integer articleId) {
-      return this.articleDAO.findByID(articleId);
+    return this.articleDAO.findByID(articleId);
   }
 
   @Override
   public List<Article> findAll() {
-	  return this.articleDAO.findAll();
+    return this.articleDAO.findAll();
   }
 
   @Override
@@ -46,7 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
 
   @Override
   public void createArticle(final Article article) {
-	  this.articleDAO.persist(article);
+    this.articleDAO.persist(article);
   }
 
   @Override
@@ -70,7 +70,6 @@ public class ArticleServiceImpl implements ArticleService {
         throw new RuntimeException(e);
       }
     }
-
   }
 
   @Override

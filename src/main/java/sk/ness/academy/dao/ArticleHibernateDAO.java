@@ -5,6 +5,9 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.hibernate.SessionFactory;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import sk.ness.academy.domain.Article;

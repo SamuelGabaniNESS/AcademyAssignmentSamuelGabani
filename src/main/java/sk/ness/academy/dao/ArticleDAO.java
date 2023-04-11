@@ -18,4 +18,5 @@ public interface ArticleDAO {
 	  void deleteById(final Article article);
 
 	  List<Article> searchAll(String searchedText);
+
 	}

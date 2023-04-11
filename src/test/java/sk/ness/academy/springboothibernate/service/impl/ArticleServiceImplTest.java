@@ -129,11 +129,6 @@ public class ArticleServiceImplTest {
         Mockito.verify(articleDAO).deleteById(a);
     }
 
-    @Test
-    void testIngestArticles(){
-
-    }
-
     @BeforeEach
     private void init() {
         final Article article1 = new Article();
