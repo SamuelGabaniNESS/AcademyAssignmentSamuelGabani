@@ -8,8 +8,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.verification.VerificationMode;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import sk.ness.academy.config.TestDataSourceConfig;
 import sk.ness.academy.controller.BlogController;
 import sk.ness.academy.dao.ArticleDAO;
+import sk.ness.academy.dao.ArticleHibernateDAO;
 import sk.ness.academy.domain.Article;
 import sk.ness.academy.domain.Comment;
 import sk.ness.academy.service.ArticleServiceImpl;
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
+@ContextConfiguration(classes = {TestDataSourceConfig.class, ArticleHibernateDAO.class})
 public class ArticleServiceImplTest {
     @Mock
     private ArticleDAO articleDAO;

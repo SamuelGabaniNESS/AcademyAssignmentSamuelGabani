@@ -1,5 +1,6 @@
 package sk.ness.academy.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -34,7 +35,19 @@ public class BlogController {
     if(result.isEmpty()){
       throw new ArticleNotFoundException();
     }else {
-      return result;
+      List<Article> view = new ArrayList<>();
+      for(Article a : result){
+        Article v = new Article();
+        v.setId(a.getId());
+        v.setAuthor(a.getAuthor());
+        v.setText(a.getText());
+        v.setTitle(a.getTitle());
+        v.setCreateTimestamp(a.getCreateTimestamp());
+        v.setComments(new ArrayList<>());
+        view.add(v);
+      }
+      return view;
+//      return result;
     }
   }
 

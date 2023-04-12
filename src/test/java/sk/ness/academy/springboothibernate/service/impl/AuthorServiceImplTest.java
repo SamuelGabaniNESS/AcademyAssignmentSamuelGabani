@@ -7,7 +7,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import sk.ness.academy.config.TestDataSourceConfig;
+import sk.ness.academy.dao.ArticleHibernateDAO;
 import sk.ness.academy.dao.AuthorDAO;
+import sk.ness.academy.dao.AuthorHibernateDAO;
 import sk.ness.academy.dto.Author;
 import sk.ness.academy.dto.AuthorStats;
 import sk.ness.academy.service.AuthorServiceImpl;
@@ -16,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
+@ContextConfiguration(classes = {TestDataSourceConfig.class, AuthorHibernateDAO.class})
 public class AuthorServiceImplTest {
     @Mock
     private AuthorDAO authorDAO;
